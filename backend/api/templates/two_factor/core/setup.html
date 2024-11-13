@@ -1,0 +1,59 @@
+{% extends "two_factor/_base_focus.html" %}
+{% load i18n %}
+
+{% block extra_media %}
+    {{ form.media }}
+{% endblock %}
+
+{% block content %}
+    <h1>{% block title %}{% trans "Activar autenticación multifactor (TOTP) " %}{% endblock %}</h1>
+    {% if wizard.steps.current == 'welcome' %}
+        <p>{% blocktrans trimmed %}Sigue los pasos siguientes para activar la autenticación
+            multifactor{% endblocktrans %}</p>
+    {% elif wizard.steps.current == 'method' %}
+        <p>{% blocktrans trimmed %}Por favor, selecciona que método de autenticación deseas usar.
+        {% endblocktrans %}</p>
+    {% elif wizard.steps.current == 'generator' %}
+        <p>{% blocktrans trimmed %}Para empezar a usar el TOTP escanea el código siguiente. Se sugiere usar
+            Google authenticator {% endblocktrans %}</p>
+        <p><img src="{{ QR_URL }}" alt="QR Code" class="bg-white"/></p>
+        <p>{% blocktrans trimmed %}De forma alternativa puede usar la siguiente liga para establecer
+            el TOTP en tu autenticador o administrador de contraseñas de forma manual.{% endblocktrans %}</p>
+        <p>{% translate "TOTP:" %} <a href="{{ otpauth_url }}">{{ secret_key }}</a></p>
+        <p>{% blocktrans %}Luego, ingresa el Token generado por la app.{% endblocktrans %}</p>
+
+    {% elif wizard.steps.current == 'sms' %}
+        <p>{% blocktrans trimmed %}Por favor ingresa el número de teléfono que deseas usar.
+        {% endblocktrans %}</p>
+    {% elif wizard.steps.current == 'call' %}
+        <p>{% blocktrans trimmed %}Ingresa el número de teléfono por el cual deseas recibir una llamada.
+        {% endblocktrans %}</p>
+    {% elif wizard.steps.current == 'validation' %}
+        {% if challenge_succeeded %}
+            {% if device.method == 'call' %}
+                <p>{% blocktrans trimmed %}Estamos actualmente llamando a tu teléfono. Digita los números
+                    que escuchas a continuación: {% endblocktrans %}</p>
+            {% elif device.method == 'sms' %}
+                <p>{% blocktrans trimmed %}Le mandamos un mensaje a su teléfono. Ingresa los números que
+                    escucha a continuación: {% endblocktrans %}</p>
+            {% endif %}
+        {% else %}
+            <p class="alert alert-warning" role="alert">{% blocktrans trimmed %}Nos hemos topado con un error con el
+                método de autenticación que seleccionó. Por favor regresa y verifica que ingresó la información
+                correctamente, intente de nuevo, o use un método de autenticación diferente. Si el problema persiste
+                contacta al administrador del sitio. {% endblocktrans %}</p>
+        {% endif %}
+    {% elif wizard.steps.current == 'yubikey' %}
+        <p>{% blocktrans trimmed %}Para identificar su Yubikey ingresa el token en el campo siguiente. Su Yubikey estará
+            vinculado a su cuenta. {% endblocktrans %}</p>
+    {% endif %}
+
+    <form action="" method="post">{% csrf_token %}
+        {% include "two_factor/_wizard_forms.html" %}
+
+        {# hidden submit button to enable [enter] key #}
+        <input type="submit" value="" hidden/>
+
+        {% include "two_factor/_wizard_actions.html" %}
+    </form>
+{% endblock %}
