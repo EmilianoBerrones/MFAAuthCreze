@@ -9,7 +9,7 @@
     <h1>{% block title %}{% trans "Activar autenticación multifactor (TOTP) " %}{% endblock %}</h1>
     {% if wizard.steps.current == 'welcome' %}
         <p>{% blocktrans trimmed %}Sigue los pasos siguientes para activar la autenticación
-            multifactor{% endblocktrans %}</p>
+            multi-factor{% endblocktrans %}</p>
     {% elif wizard.steps.current == 'method' %}
         <p>{% blocktrans trimmed %}Por favor, selecciona que método de autenticación deseas usar.
         {% endblocktrans %}</p>

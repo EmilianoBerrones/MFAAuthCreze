@@ -101,8 +101,10 @@ En windows 11, es probable que la ejecución de scripts esté deshabilitada en e
 comando se muestra lo siguiente:
 ![img.png](Misc/img11.png)
 Para habilitar la ejecución de scripts dentro del equipo (y evitar que suceda este error) sigue los siguientes pasos:
-1. Ejecuta el comando `Set-ExecutionPolicy RemoteSigned -Scope CurrentUser`, y selecciona Sí a todo (o presiona la tecla 'O').
-![img.png](Misc/img13.png)
+
+1. Ejecuta el comando `Set-ExecutionPolicy RemoteSigned -Scope CurrentUser`, y selecciona Sí a todo (o presiona la
+   tecla 'O').
+   ![img.png](Misc/img13.png)
 2. Comprueba que se modificaron los permisos ejecutando `Get-ExecutionPolicy -List`.
-![img.png](Misc/img14.png)
+   ![img.png](Misc/img14.png)
 3. Cierra la ventana y vuelve a abrir _Windows PowerShell_. Intenta correr el script conflictivo de nuevo.

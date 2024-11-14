@@ -1,6 +1,5 @@
 # backend/api/views.py
 from datetime import timedelta
-from os import access
 from django.shortcuts import render
 from django.contrib.auth import authenticate, get_user_model
 from rest_framework import generics
@@ -52,6 +51,7 @@ class InitiateLoginView(APIView):
         if user is not None:
             # Verifica si el usuario tiene un dispositivo 2FA configurado
             if default_device(user):
+                print("Contenido de la sesión:", request.session.items()) # esto se imprime y no se visualiza nada
                 request.session['pre_2fa_user_id'] = user.id
                 return Response({"detail": "2FA required"}, status=status.HTTP_200_OK)
             else:
@@ -90,7 +90,7 @@ class Verify2FAView(APIView):
                 'access': str(accessTkn),
             }, status=status.HTTP_200_OK)
         else:
-            return Response({"detail": "Invalid OTP code"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"detail": "Invalid OTP code"}, status=status.HTTP_200_OK)
 
 
 def qr_code_view(request):

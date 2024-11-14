@@ -8,11 +8,14 @@ import {Navigate, useNavigate} from "react-router-dom";
 const SetupMFA = () => {
     const navigate = useNavigate();  // Hook de navegación
 
-    // Función para manejar el cierre de sesión
     const handleLogout = async () => {
         localStorage.clear();  // Limpia el almacenamiento local
         navigate('/login');  // Redirige a la página de login
     };
+
+    const handleNavigateEnable = () => {
+        navigate('/MFAEnable')
+    }
 
     return (
         <Container
@@ -38,7 +41,7 @@ const SetupMFA = () => {
                 ¿Deseas activar la autenticación multifactor para aumentar la seguridad de tu cuenta?
             </Typography>
             <Box display="flex" gap="1rem">
-                <Button variant="contained" color="primary">
+                <Button variant="contained" color="primary" onClick={handleNavigateEnable}>
                     ACEPTAR
                 </Button>
                 <Button variant="outlined" color="secondary" onClick={handleLogout}>

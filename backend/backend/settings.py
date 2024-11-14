@@ -161,5 +161,15 @@ LOGIN_REDIRECT_URL = 'two_factor:profile'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOWS_CREDENTIALS = True
+CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",  # Origen del frontend (Vite)
+]
+
+SESSION_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SECURE = False  # Solo debería ser True si usas HTTPS
+
+CSRF_TRUSTED_ORIGINS = ["http://localhost:5173"]
+CSRF_COOKIE_SAMESITE = 'None'
+CSRF_COOKIE_HTTPONLY = False

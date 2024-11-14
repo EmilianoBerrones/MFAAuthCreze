@@ -2,23 +2,21 @@
 {% load i18n %}
 
 {% block content %}
-  <h1>{% block title %}{% trans "Enable Two-Factor Authentication" %}{% endblock %}</h1>
+    <h1>{% block title %}{% trans "Activa la autenticación multi-factor" %}{% endblock %}</h1>
 
-  <p>{% blocktrans trimmed %}Congratulations, you've successfully enabled two-factor
-      authentication.{% endblocktrans %}</p>
+    <p>{% blocktrans trimmed %} Felicidades. Has activado correctamente la autenticación multi-factor
+    {% endblocktrans %}</p>
 
-  {% if not phone_methods %}
-    <p><a href="{% url 'two_factor:profile' %}"
-        class="btn btn-block btn-secondary">{% trans "Back to Account Security" %}</a></p>
-  {% else %}
-    <p>{% blocktrans trimmed %}However, it might happen that you don't have access to
-      your primary token device. To enable account recovery, add a phone
-      number.{% endblocktrans %}</p>
+    {% if not phone_methods %}
 
-    <a href="{% url 'two_factor:profile' %}"
-        class="float-right btn btn-link">{% trans "Back to Account Security" %}</a>
-    <p><a href="{% url 'two_factor:phone_create' %}"
-        class="btn btn-success">{% trans "Add Phone Number" %}</a></p>
-  {% endif %}
+    {% else %}
+        <p>{% blocktrans trimmed %}
+            Sin embargo, parece ser que no tienes acceso a tu dispositivo principal. Para activar la recuperación de la
+            cuenta, agrega un número de teléfono.
+        {% endblocktrans %}</p>
+
+        <p><a href="{% url 'two_factor:phone_create' %}"
+              class="btn btn-success">{% trans "Add Phone Number" %}</a></p>
+    {% endif %}
 
 {% endblock %}
